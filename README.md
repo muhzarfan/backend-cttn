@@ -34,6 +34,10 @@ Backend Catatan adalah RESTful API sederhana untuk mengelola pengguna dan catata
    ```
    http://localhost:5000
    ```
+  Atau gunakan link yang sudah dideploy:
+   ```
+   http://backend-cttn.vercel.app/
+   ```
 
 ---
 
