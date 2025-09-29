@@ -1,6 +1,6 @@
 # 📝 Backend Catatan
 
-Backend Catatan (**CTTN**) adalah RESTful API sederhana untuk mengelola pengguna dan catatan. Proyek ini menyediakan fitur autentikasi (register, login, logout) serta CRUD untuk catatan.
+Backend Catatan adalah RESTful API sederhana untuk mengelola pengguna dan catatan. Proyek ini menyediakan fitur autentikasi (register, login, logout) serta CRUD untuk catatan.
 
 ## 🚀 Teknologi yang Digunakan
 - **Node.js**  
