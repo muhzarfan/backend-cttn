@@ -68,7 +68,7 @@ POST /auth/register
   "success": true,
   "message": "User registered successfully",
   "data": {
-    // Sesuai data register
+    "note": "Sesuai data register"
     },
     "expiresIn": "7d"
   }
@@ -98,7 +98,7 @@ POST /auth/login
   "data": {
     "token": "*Token untuk autentikasi*",
     "user": {
-      // Informasi login user
+      "note": "Informasi login user"
     },
     "expiresIn": "7d"
   }
