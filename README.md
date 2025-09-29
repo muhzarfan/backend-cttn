@@ -70,8 +70,7 @@ POST /auth/register
   "data": {
     "note": "Sesuai data register"
     },
-    "expiresIn": "7d"
-  }
+  "expiresIn": "7d"
 }
 ```
 
