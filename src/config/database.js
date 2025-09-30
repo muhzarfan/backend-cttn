@@ -2,19 +2,22 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI, {
-      // Mongoose 6+ doesn't need these options, but including for compatibility
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    // Pastikan env sudah ada
+    if (!process.env.MONGODB_URI) {
+      throw new Error("MONGODB_URI is not defined in environment variables");
+    }
 
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
-    
-    // Handle connection events
+    // Connect ke MongoDB
+    const conn = await mongoose.connect(process.env.MONGODB_URI);
+
+    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
+
+    // Event listener kalau koneksi putus
     mongoose.connection.on('disconnected', () => {
-      console.log('MongoDB disconnected');
+      console.log('⚠️ MongoDB disconnected');
     });
 
+    // Event listener kalau ada error
     mongoose.connection.on('error', (err) => {
       console.error('MongoDB connection error:', err);
     });
