@@ -26,24 +26,17 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Password is required'],
     minlength: [6, 'Password must be at least 6 characters'],
-    select: false // Don't include password in queries by default
+    select: false 
   }
 }, {
   timestamps: true,
   collection: 'tb_users'
 });
 
-// Index for faster queries
-userSchema.index({ email: 1 });
-userSchema.index({ username: 1 });
-
 // Hash password before saving
 userSchema.pre('save', async function(next) {
-  // Only hash if password is modified
   if (!this.isModified('password')) return next();
-  
   try {
-    // Hash password with cost of 12
     const salt = await bcrypt.genSalt(12);
     this.password = await bcrypt.hash(this.password, salt);
     next();
@@ -60,16 +53,13 @@ userSchema.methods.comparePassword = async function(candidatePassword) {
 // Static method to find user with password for authentication
 userSchema.statics.findByCredentials = async function(username, password) {
   const user = await this.findOne({ username }).select('+password');
-  
   if (!user) {
     throw new Error('Invalid credentials');
   }
-
   const isMatch = await user.comparePassword(password);
   if (!isMatch) {
     throw new Error('Invalid credentials');
   }
-
   return user;
 };
 
