@@ -21,7 +21,7 @@ const noteSchema = new mongoose.Schema({
   username: {
     type: String,
     required: [true, 'Username is required'],
-    index: true // Index for faster queries by user
+    index: true 
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -30,22 +30,22 @@ const noteSchema = new mongoose.Schema({
     index: true
   }
 }, {
-  timestamps: true, // This creates createdAt and updatedAt automatically
+  timestamps: true, 
   collection: 'tb_notes'
 });
 
-// Compound index for efficient user-specific queries
+// index query untuk pengguna yg login
 noteSchema.index({ userId: 1, createdAt: -1 });
 noteSchema.index({ username: 1, createdAt: -1 });
 
-// Index for text search across title, content, and tags
+// index untuk pencarian
 noteSchema.index({
   title: 'text',
   content: 'text',
   tags: 'text'
 });
 
-// Static method to get user's notes with pagination
+// method untuk menampilkan catatan
 noteSchema.statics.getUserNotes = async function(userId, options = {}) {
   const {
     page = 1,
@@ -57,7 +57,6 @@ noteSchema.statics.getUserNotes = async function(userId, options = {}) {
 
   const query = { userId };
 
-  // Add search functionality
   if (search) {
     query.$or = [
       { title: { $regex: search, $options: 'i' } },
@@ -85,21 +84,20 @@ noteSchema.statics.getUserNotes = async function(userId, options = {}) {
   };
 };
 
-// Instance method to format note for API response
+// format catatan
 noteSchema.methods.toAPIResponse = function() {
   const note = this.toObject();
   
-  // Format dates to match frontend expectation
+  // format tanggal untuk catatan
   note.createdAt = this.createdAt.toLocaleDateString('id-ID');
   note.updatedAt = this.updatedAt.toLocaleDateString('id-ID');
   
   return note;
 };
 
-// Pre-save middleware to extract tags
+// method untuk tags (biar bisa disearch)
 noteSchema.pre('save', function(next) {
   if (this.tags) {
-    // Clean up tags - remove duplicates and ensure # prefix
     const tagArray = this.tags.match(/#?[\w\u00C0-\u017F]+/g) || [];
     const cleanTags = [...new Set(tagArray.map(tag => 
       tag.startsWith('#') ? tag : `#${tag}`
