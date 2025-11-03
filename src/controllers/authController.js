@@ -1,12 +1,11 @@
 const User = require('../models/users');
 const { createTokenResponse } = require('../utils/jwt');
 
-// Register new user
+// REGISTER
 const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    // Validation
     if (!username || !email || !password) {
       return res.status(400).json({
         success: false,
@@ -14,7 +13,7 @@ const register = async (req, res) => {
       });
     }
 
-    // Check if user already exists
+    // cek kalo ada user yang sama
     const existingUser = await User.findOne({
       $or: [
         { email: email.toLowerCase() },
@@ -30,7 +29,7 @@ const register = async (req, res) => {
       });
     }
 
-    // Create new user
+    // buat user baru
     const user = new User({
       username,
       email: email.toLowerCase(),
@@ -39,7 +38,7 @@ const register = async (req, res) => {
 
     await user.save();
 
-    // Create token response
+    // buat token
     const tokenResponse = createTokenResponse(user);
 
     res.status(201).json({
@@ -51,7 +50,7 @@ const register = async (req, res) => {
   } catch (error) {
     console.error('Pendaftaran error:', error);
 
-    // Handle validation errors
+    // error handle validasi
     if (error.name === 'ValidationError') {
       const messages = Object.values(error.errors).map(err => err.message);
       return res.status(400).json({
@@ -61,7 +60,7 @@ const register = async (req, res) => {
       });
     }
 
-    // Handle duplicate key errors
+    // handle jika key duplikat
     if (error.code === 11000) {
       const field = Object.keys(error.keyValue)[0];
       return res.status(409).json({
@@ -77,12 +76,11 @@ const register = async (req, res) => {
   }
 };
 
-// Login user
+// LOGIN
 const login = async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    // Validation
     if (!username || !password) {
       return res.status(400).json({
         success: false,
@@ -90,10 +88,10 @@ const login = async (req, res) => {
       });
     }
 
-    // Find user and check credentials
+    // cari user dan cek info login
     const user = await User.findByCredentials(username, password);
 
-    // Create token response
+    // buat token
     const tokenResponse = createTokenResponse(user);
 
     res.json({
@@ -119,7 +117,7 @@ const login = async (req, res) => {
   }
 };
 
-// Get current user profile
+// GET profil user
 const getProfile = async (req, res) => {
   try {
     res.json({
@@ -137,7 +135,7 @@ const getProfile = async (req, res) => {
   }
 };
 
-// Update user profile
+// UPDATE profil
 const updateProfile = async (req, res) => {
   try {
     const { username, email } = req.body;
@@ -199,7 +197,7 @@ const updateProfile = async (req, res) => {
   }
 };
 
-// Logout user
+// LOGOUT
 const logout = async (req, res) => {
   try {
     res.json({
