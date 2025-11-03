@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-// Generate JWT token
+// generate token jwt
 const generateToken = (payload) => {
   return jwt.sign(payload, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN || '7d',
@@ -9,7 +9,7 @@ const generateToken = (payload) => {
   });
 };
 
-// Verify JWT token
+// verifikasi token
 const verifyToken = (token) => {
   try {
     return jwt.verify(token, process.env.JWT_SECRET, {
@@ -21,7 +21,7 @@ const verifyToken = (token) => {
   }
 };
 
-// Create token response for user
+// buat token random
 const createTokenResponse = (user) => {
   const payload = {
     id: user._id,
