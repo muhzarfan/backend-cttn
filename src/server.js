@@ -5,21 +5,19 @@ const helmet = require('helmet');
 const connectDB = require('./config/database');
 const { errorHandler, notFound } = require('./middleware/errorHandler');
 
-// Import routes
 const authRoutes = require('./routes/auth');
 const notesRoutes = require('./routes/notes');
 
 const app = express();
 
-// Connect to MongoDB
+// koneksi database mongodb
 connectDB();
 
-// Security middleware
+// cors
 app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 
-// CORS configuration (whitelist)
 const allowedOrigins = [
   'http://localhost:3000',
   'https://emzar-catatanku.vercel.app'
@@ -38,11 +36,11 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Body parsing middleware
+// body-parser untuk proses data ke fe
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Health check endpoint
+// health check
 app.get('/health', (req, res) => {
   res.status(200).json({
     success: true,
@@ -52,11 +50,10 @@ app.get('/health', (req, res) => {
   });
 });
 
-// API routes
+// routes
 app.use('/api/auth', authRoutes);
 app.use('/api/notes', notesRoutes);
 
-// Welcome route
 app.get('/', (req, res) => {
   res.json({
     success: true,
@@ -67,13 +64,12 @@ app.get('/', (req, res) => {
   });
 });
 
-// Handle 404 errors
+// handle error
 app.use(notFound);
 
-// Global error handler
 app.use(errorHandler);
 
-// Start server
+// start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
