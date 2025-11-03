@@ -1,6 +1,6 @@
 const Note = require('../models/Note');
 
-// Get all notes for authenticated user
+// GET semua catatan untuk user yang sudah login
 const getNotes = async (req, res) => {
   try {
     const userId = req.user._id;
@@ -19,7 +19,7 @@ const getNotes = async (req, res) => {
       sortOrder
     });
 
-    // Format notes for API response
+    // format catatan untuk api
     const formattedNotes = result.notes.map(note => note.toAPIResponse());
 
     res.json({
@@ -45,7 +45,7 @@ const getNotes = async (req, res) => {
   }
 };
 
-// Get single note by ID
+// GET catatan berdasarkan ID
 const getNoteById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -84,14 +84,13 @@ const getNoteById = async (req, res) => {
   }
 };
 
-// Create new note
+// CREATE catatan
 const createNote = async (req, res) => {
   try {
     const { title, content, tags = '' } = req.body;
     const userId = req.user._id;
     const username = req.user.username;
 
-    // Validation
     if (!title || !content) {
       return res.status(400).json({
         success: false,
@@ -136,14 +135,13 @@ const createNote = async (req, res) => {
   }
 };
 
-// Update existing note
+// UPDATE catatan
 const updateNote = async (req, res) => {
   try {
     const { id } = req.params;
     const { title, content, tags } = req.body;
     const userId = req.user._id;
 
-    // Validation
     if (!title || !content) {
       return res.status(400).json({
         success: false,
@@ -204,7 +202,7 @@ const updateNote = async (req, res) => {
   }
 };
 
-// Delete note
+// DELETE catatan
 const deleteNote = async (req, res) => {
   try {
     const { id } = req.params;
@@ -241,7 +239,7 @@ const deleteNote = async (req, res) => {
   }
 };
 
-// Get notes statistics for user
+// GET catatan yang dibuat user tertentu
 const getNotesStats = async (req, res) => {
   try {
     const userId = req.user._id;
