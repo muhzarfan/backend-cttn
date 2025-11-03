@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
   collection: 'tb_users'
 });
 
-// Hash password before saving
+// hasing password sebelum simpan
 userSchema.pre('save', async function(next) {
   if (!this.isModified('password')) return next();
   try {
@@ -45,12 +45,12 @@ userSchema.pre('save', async function(next) {
   }
 });
 
-// Instance method to check password
+// check password
 userSchema.methods.comparePassword = async function(candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
-// Static method to find user with password for authentication
+// cari user dengan password untuk autentikasi
 userSchema.statics.findByCredentials = async function(username, password) {
   const user = await this.findOne({ username }).select('+password');
   if (!user) {
@@ -63,7 +63,7 @@ userSchema.statics.findByCredentials = async function(username, password) {
   return user;
 };
 
-// Remove password from JSON output
+// hapus password dari hasil JSON
 userSchema.methods.toJSON = function() {
   const user = this.toObject();
   delete user.password;
