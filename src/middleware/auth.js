@@ -1,7 +1,7 @@
 const { verifyToken } = require('../utils/jwt');
 const User = require('../models/users');
 
-// Middleware to authenticate user
+// middleware untuk autentikasi user
 const authenticate = async (req, res, next) => {
   try {
     const authHeader = req.header('Authorization');
@@ -13,12 +13,12 @@ const authenticate = async (req, res, next) => {
       });
     }
 
-    const token = authHeader.substring(7); // Remove 'Bearer ' prefix
+    const token = authHeader.substring(7);
     
-    // Verify token
+    // verifikasi token
     const decoded = verifyToken(token);
     
-    // Find user
+    // cari user
     const user = await User.findById(decoded.id);
     if (!user) {
       return res.status(401).json({
@@ -27,14 +27,14 @@ const authenticate = async (req, res, next) => {
       });
     }
 
-    // Attach user to request
+    // kirim request user
     req.user = user;
     next();
     
   } catch (error) {
     console.error('Authentication error:', error.message);
     
-    // Handle specific JWT errors
+    // handle error di JWT
     let message = 'Invalid token';
     if (error.message.includes('expired')) {
       message = 'Token has expired';
@@ -49,7 +49,7 @@ const authenticate = async (req, res, next) => {
   }
 };
 
-// Optional authentication - for routes that can work with or without auth
+// autentikasi untuk routes yang ada
 const optionalAuth = async (req, res, next) => {
   try {
     const authHeader = req.header('Authorization');
@@ -65,7 +65,6 @@ const optionalAuth = async (req, res, next) => {
     
     next();
   } catch (error) {
-    // Continue without authentication for optional auth
     next();
   }
 };
