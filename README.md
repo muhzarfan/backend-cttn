@@ -5,7 +5,6 @@ Backend Catatan adalah RESTful API sederhana untuk mengelola pengguna dan catata
 ## 🚀 Teknologi yang Digunakan
 - **Node.js**  
 - **Express.js**  
-- **JWT (JSON Web Token)** untuk autentikasi  
 - **Database** menggunakan MongoDB  
 
 ## ⚙️ Instalasi & Menjalankan Server
