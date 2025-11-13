@@ -1,8 +1,9 @@
-# 📝 Backend Catatan
+# 📝 Backend Website Catatan
 
 Backend Catatan adalah RESTful API sederhana untuk mengelola pengguna dan catatan. Proyek ini menyediakan fitur autentikasi (register, login, logout) serta CRUD untuk catatan.
+Link website: [Emzar Catatan](https://emzar-catatanku.vercel.app/)
 
-## 🚀 Teknologi yang Digunakan
+## 🚀 Software yang Digunakan
 - **Node.js**  
 - **Express.js**  
 - **Database** menggunakan MongoDB  
