@@ -37,7 +37,7 @@ Link website: [Emzar Catatan](https://emzar-catatanku.vercel.app/)
 
 ---
 
-## 🔑 Autentikasi
+## Autentikasi
 Sebagian besar endpoint membutuhkan **token JWT** yang diperoleh saat login. Token dikirimkan melalui header:
 
 ```
